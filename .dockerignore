@@ -1,0 +1,12 @@
+.git
+.cursor
+.next
+node_modules
+media
+coverage
+playwright-report
+test-results
+blob-report
+.env
+.env*.local
+*.tsbuildinfo
