@@ -21,7 +21,7 @@ export async function getPublishedChangelogsByProject({
 
   return payload.find({
     collection: 'changelogs',
-    depth: 2,
+    depth: 3,
     limit: PAGE_SIZE,
     overrideAccess: false,
     page,

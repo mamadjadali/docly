@@ -117,7 +117,7 @@ export function ChangelogRail({ children, className }: ChangelogRailProps) {
     <div ref={railRef} className="relative">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 start-0 w-6 md:start-[calc(18rem+2rem)]"
+        className="pointer-events-none absolute inset-y-0 start-0 w-6 md:start-[calc(11rem+1.5rem+10rem+1.5rem)]"
       >
         <div className="absolute start-1/2 top-0 h-full w-px -translate-x-1/2 bg-border" />
         <div

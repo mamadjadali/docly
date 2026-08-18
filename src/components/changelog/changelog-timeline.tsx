@@ -32,7 +32,7 @@ export function ChangelogTimeline({
   return (
     <section className={cn('py-16 md:py-32', className)}>
       <div className="container">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <p className="mb-3 text-sm text-muted-foreground">
             <Link className="hover:text-foreground" href="/">
               پروژه‌ها
@@ -50,7 +50,7 @@ export function ChangelogTimeline({
             </p>
           )}
         </div>
-        <div className="mx-auto mt-16 max-w-4xl md:mt-24">
+        <div className="mx-auto mt-16 max-w-6xl md:mt-24">
           {entries.length === 0 ? (
             <p className="text-muted-foreground">هنوز تغییری منتشر نشده است.</p>
           ) : (
@@ -62,7 +62,7 @@ export function ChangelogTimeline({
           )}
         </div>
         {(hasPrevPage || hasNextPage) && (
-          <div className="mx-auto mt-16 flex max-w-4xl items-center justify-between">
+          <div className="mx-auto mt-16 flex max-w-6xl items-center justify-between">
             {hasPrevPage && prevHref ? (
               <Button asChild variant="outline">
                 <Link href={prevHref}>صفحه قبل</Link>

@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { ChangelogRichText } from '@/components/rich-text'
 import { Badge } from '@/components/ui/badge'
 import { formatPersianDate } from '@/lib/format-date'
-import { authorName, isPopulated, mediaUrl, populatedLabels } from '@/lib/payload'
+import { authorName, firstRichTextImage, isPopulated, mediaUrl, populatedLabels } from '@/lib/payload'
 import { cn } from '@/lib/utils'
 import type { Changelog, Label } from '@/payload-types'
 
@@ -23,13 +22,26 @@ type ChangelogEntryProps = {
 
 export function ChangelogEntry({ entry, projectSlug }: ChangelogEntryProps) {
   const labels = populatedLabels(entry.labels)
-  const imageSrc = mediaUrl(entry.image)
+  const fieldImageSrc = mediaUrl(entry.image)
+  const bodyImage = firstRichTextImage(entry.description)
+  const thumbSrc = fieldImageSrc ?? bodyImage?.src ?? null
   const author = authorName(entry.author)
-  const imageAlt = isPopulated(entry.image) ? entry.image.alt : entry.title
+  const imageAlt = isPopulated(entry.image)
+    ? entry.image.alt
+    : bodyImage?.alt || entry.title
 
   return (
-    <article className="relative flex flex-col gap-4 md:flex-row md:gap-8">
-      <div className="top-8 flex h-min w-full shrink-0 items-center gap-4 ps-8 md:sticky md:w-72 md:ps-0">
+    <article className="relative flex flex-col gap-4 md:flex-row md:gap-6">
+      <div className="top-8 w-44 shrink-0 max-md:hidden md:sticky">
+        {thumbSrc ? (
+          <img
+            alt={imageAlt}
+            className="aspect-video w-full rounded-xl object-cover"
+            src={thumbSrc}
+          />
+        ) : null}
+      </div>
+      <div className="top-8 flex h-min w-full shrink-0 items-center gap-4 ps-8 md:sticky md:w-40 md:ps-0">
         <Badge variant="secondary" className="text-xs">
           نسخه {entry.version}
         </Badge>
@@ -68,14 +80,11 @@ export function ChangelogEntry({ entry, projectSlug }: ChangelogEntryProps) {
           </div>
         )}
         <ChangelogRichText data={entry.description} />
-        {imageSrc && (
-          <Image
+        {fieldImageSrc && (
+          <img
             alt={imageAlt}
-            className="mt-8 h-auto w-full rounded-lg object-cover"
-            height={isPopulated(entry.image) ? entry.image.height ?? 675 : 675}
-            sizes="(min-width: 768px) 56rem, 100vw"
-            src={imageSrc}
-            width={isPopulated(entry.image) ? entry.image.width ?? 1200 : 1200}
+            className="mt-8 h-auto w-full rounded-xl object-cover"
+            src={fieldImageSrc}
           />
         )}
       </div>
