@@ -18,9 +18,10 @@ const labelColorClass: Record<NonNullable<Label['color']>, string> = {
 type ChangelogEntryProps = {
   entry: Changelog
   projectSlug: string
+  lang: 'fa' | 'en'
 }
 
-export function ChangelogEntry({ entry, projectSlug }: ChangelogEntryProps) {
+export function ChangelogEntry({ entry, projectSlug, lang }: ChangelogEntryProps) {
   const labels = populatedLabels(entry.labels)
   const fieldImageSrc = mediaUrl(entry.image)
   const bodyImage = firstRichTextImage(entry.description)
@@ -30,9 +31,19 @@ export function ChangelogEntry({ entry, projectSlug }: ChangelogEntryProps) {
     ? entry.image.alt
     : bodyImage?.alt || entry.title
 
+  const readsDocs = ((entry as unknown as { reads?: { docs?: unknown[] } }).reads?.docs ?? []) as unknown[]
+  const readerNames = Array.from(
+    new Set(
+      readsDocs
+        .map((doc) => (doc && typeof doc === 'object' ? (doc as { viewerName?: unknown }).viewerName : null))
+        .filter((name): name is string => typeof name === 'string' && name.trim().length > 0)
+        .map((name) => name.trim()),
+    ),
+  )
+
   return (
     <article className="relative flex flex-col gap-4 md:flex-row md:gap-6">
-      <div className="top-8 w-44 shrink-0 max-md:hidden md:sticky">
+      <div className="top-8 h-min w-44 shrink-0 max-md:hidden md:sticky md:self-start">
         {thumbSrc ? (
           <img
             alt={imageAlt}
@@ -62,10 +73,26 @@ export function ChangelogEntry({ entry, projectSlug }: ChangelogEntryProps) {
         <h2 className="mb-3 text-lg font-bold leading-tight text-foreground/90 md:text-2xl">
           {entry.title}
         </h2>
+        {readerNames.length > 0 && (
+          <div className="mb-3 flex w-full flex-col items-end text-right">
+            <p className="text-xs font-medium text-muted-foreground">مشاهده شده توسط</p>
+            <div className="mt-2 flex flex-wrap justify-end gap-2">
+              {readerNames.map((name) => (
+                <span
+                  key={name}
+                  className="inline-flex max-w-[12rem] items-center justify-center rounded-full bg-muted px-3 py-1 text-xs text-foreground/90"
+                  title={name}
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
         {(labels.length > 0 || author) && (
           <div className="mb-3 flex flex-wrap items-center gap-2">
             {labels.map((label) => (
-              <Link key={label.id} href={`/${projectSlug}?label=${label.slug}`}>
+              <Link key={label.id} href={`/${projectSlug}?label=${label.slug}&lang=${lang}`}>
                 <Badge
                   variant="outline"
                   className={cn(label.color ? labelColorClass[label.color] : undefined)}

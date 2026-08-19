@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Changelogs } from './collections/Changelogs'
+import { ChangelogReads } from './collections/ChangelogReads'
 import { Labels } from './collections/Labels'
 import { Media } from './collections/Media'
 import { OtpChallenges } from './collections/OtpChallenges'
@@ -19,13 +20,18 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  localization: {
+    locales: ['fa', 'en'],
+    defaultLocale: 'fa',
+    fallback: true,
+  },
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Viewers, Media, Projects, Changelogs, Labels, OtpChallenges],
+  collections: [Users, Viewers, Media, Projects, Changelogs, ChangelogReads, Labels, OtpChallenges],
   globals: [Settings],
   csrf: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],
   editor: lexicalEditor(),

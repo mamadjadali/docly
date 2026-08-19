@@ -15,6 +15,7 @@ type ChangelogTimelineProps = {
   nextHref?: string
   prevHref?: string
   project: Project
+  lang: 'fa' | 'en'
 }
 
 export function ChangelogTimeline({
@@ -26,6 +27,7 @@ export function ChangelogTimeline({
   nextHref,
   prevHref,
   project,
+  lang,
 }: ChangelogTimelineProps) {
   const description = project.description?.trim() || 'آخرین تغییرات و بهبودها'
 
@@ -44,7 +46,10 @@ export function ChangelogTimeline({
             <p className="text-sm text-muted-foreground">
               فیلتر برچسب: <span className="font-medium text-foreground">{filterLabel.name}</span>
               {' · '}
-              <Link className="underline-offset-4 hover:underline" href={`/${project.slug}`}>
+              <Link
+                className="underline-offset-4 hover:underline"
+                href={`/${project.slug}?lang=${lang}`}
+              >
                 حذف فیلتر
               </Link>
             </p>
@@ -56,7 +61,12 @@ export function ChangelogTimeline({
           ) : (
             <ChangelogRail className="space-y-16 md:space-y-24">
               {entries.map((entry) => (
-                <ChangelogEntry key={entry.id} entry={entry} projectSlug={project.slug} />
+                <ChangelogEntry
+                  key={entry.id}
+                  entry={entry}
+                  projectSlug={project.slug}
+                  lang={lang}
+                />
               ))}
             </ChangelogRail>
           )}

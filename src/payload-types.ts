@@ -73,6 +73,7 @@ export interface Config {
     media: Media;
     projects: Project;
     changelogs: Changelog;
+    'changelog-reads': ChangelogRead;
     labels: Label;
     'otp-challenges': OtpChallenge;
     'payload-kv': PayloadKv;
@@ -84,6 +85,9 @@ export interface Config {
     projects: {
       changelogs: 'changelogs';
     };
+    changelogs: {
+      reads: 'changelog-reads';
+    };
   };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
@@ -91,6 +95,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     changelogs: ChangelogsSelect<false> | ChangelogsSelect<true>;
+    'changelog-reads': ChangelogReadsSelect<false> | ChangelogReadsSelect<true>;
     labels: LabelsSelect<false> | LabelsSelect<true>;
     'otp-challenges': OtpChallengesSelect<false> | OtpChallengesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -101,14 +106,14 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('fa' | 'en') | ('fa' | 'en')[];
   globals: {
     settings: Setting;
   };
   globalsSelect: {
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
-  locale: null;
+  locale: 'fa' | 'en';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -271,6 +276,11 @@ export interface Changelog {
   publishedAt?: string | null;
   project: string | Project;
   author?: (string | null) | User;
+  reads?: {
+    docs?: (string | ChangelogRead)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -288,6 +298,18 @@ export interface Label {
   generateSlug?: boolean | null;
   slug: string;
   color?: ('gray' | 'blue' | 'green' | 'amber' | 'red') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "changelog-reads".
+ */
+export interface ChangelogRead {
+  id: string;
+  changelog: string | Changelog;
+  viewer: string | Viewer;
+  viewerName: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -349,6 +371,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'changelogs';
         value: string | Changelog;
+      } | null)
+    | ({
+        relationTo: 'changelog-reads';
+        value: string | ChangelogRead;
       } | null)
     | ({
         relationTo: 'labels';
@@ -498,9 +524,21 @@ export interface ChangelogsSelect<T extends boolean = true> {
   publishedAt?: T;
   project?: T;
   author?: T;
+  reads?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "changelog-reads_select".
+ */
+export interface ChangelogReadsSelect<T extends boolean = true> {
+  changelog?: T;
+  viewer?: T;
+  viewerName?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -27,9 +27,39 @@ export function ChangelogRail({ children, className }: ChangelogRailProps) {
   const [progress, setProgress] = useState(0)
   const [allowMotion, setAllowMotion] = useState(false)
   const [revealed, setRevealed] = useState<Set<number>>(() => new Set())
+  const changelogIdByIndexRef = useRef<Array<string | null>>([])
+  const markedIdsRef = useRef<Set<string>>(new Set())
 
   const items = Children.toArray(children)
   const itemCount = items.length
+
+  changelogIdByIndexRef.current = items.map((child) => {
+    if (!isValidElement(child)) return null
+    const key = child.key
+    if (key == null) return null
+    return String(key)
+  })
+
+  useEffect(() => {
+    if (revealed.size === 0) return
+
+    for (const index of revealed) {
+      const changelogId = changelogIdByIndexRef.current[index]
+      if (!changelogId) continue
+      if (markedIdsRef.current.has(changelogId)) continue
+
+      markedIdsRef.current.add(changelogId)
+
+      void fetch('/api/changelog-reads/mark-seen', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ changelogId }),
+      }).catch(() => {
+        // Best-effort tracking; ignore failures.
+      })
+    }
+  }, [revealed])
 
   const updateProgress = useCallback(() => {
     const el = railRef.current

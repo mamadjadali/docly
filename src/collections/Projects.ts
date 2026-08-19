@@ -32,6 +32,7 @@ export const Projects: CollectionConfig = {
       type: 'text',
       required: true,
       index: true,
+      localized: true,
     },
     slugField({
       useAsSlug: 'name',
@@ -58,6 +59,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
     },
     {
       name: 'logo',

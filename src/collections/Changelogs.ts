@@ -41,11 +41,13 @@ export const Changelogs: CollectionConfig = {
       type: 'text',
       required: true,
       index: true,
+      localized: true,
     },
     {
       name: 'description',
       type: 'richText',
       required: true,
+      localized: true,
     },
     {
       name: 'labels',
@@ -121,6 +123,15 @@ export const Changelogs: CollectionConfig = {
       relationTo: 'users',
       admin: {
         position: 'sidebar',
+      },
+    },
+    {
+      name: 'reads',
+      type: 'join',
+      collection: 'changelog-reads',
+      on: 'changelog',
+      admin: {
+        hidden: true,
       },
     },
   ],
