@@ -140,7 +140,7 @@ export function ChangelogRail({ children, className }: ChangelogRailProps) {
               className={cn(
                 'relative motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:animate-none',
                 isRevealed && 'is-active',
-                allowMotion && !isRevealed && 'translate-y-4 opacity-0',
+                allowMotion && !isRevealed && 'translate-y-4',
                 allowMotion && isRevealed && 'animate-in fade-in slide-in-from-bottom-4 duration-500',
               )}
             >
