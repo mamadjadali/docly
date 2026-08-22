@@ -136,19 +136,13 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
       <div dir={dir}>
         <SiteHeader name={displayName(user)} />
         <div className="container mb-3 mt-4 flex items-center justify-center">
-          <div dir="ltr" className="relative grid grid-cols-2 rounded-full bg-muted/70 p-1">
-            <span
-              aria-hidden
-              className={`pointer-events-none absolute left-1 top-1 z-0 h-9 w-9 rounded-full bg-background shadow-sm transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${
-                lang === 'fa' ? 'translate-x-0' : 'translate-x-9'
-              }`}
-            />
+          <div dir="ltr" className="inline-flex items-center rounded-full border border-border/60 bg-muted/70 p-1">
             <Link
               aria-label="Switch language to Persian"
-              className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ease-out ${
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
                 lang === 'fa'
-                  ? 'scale-100 opacity-100'
-                  : 'scale-95 opacity-70 hover:scale-100 hover:opacity-100'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'opacity-70 hover:opacity-100'
               }`}
               href={buildPageHref(project.slug, page, filterLabel?.slug, 'fa')}
             >
@@ -156,10 +150,10 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
             </Link>
             <Link
               aria-label="Switch language to English"
-              className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ease-out ${
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
                 lang === 'en'
-                  ? 'scale-100 opacity-100'
-                  : 'scale-95 opacity-70 hover:scale-100 hover:opacity-100'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'opacity-70 hover:opacity-100'
               }`}
               href={buildPageHref(project.slug, page, filterLabel?.slug, 'en')}
             >

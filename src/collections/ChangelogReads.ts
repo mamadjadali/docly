@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
+import { publiclyVisibleStatusWhere } from '@/lib/published-status'
 import { getAssignedProjectIds, isAdminUser, isViewerUser } from '../access/roles'
 import { markChangelogSeenHandler } from '../endpoints/changelog-reads/mark-seen'
 
@@ -19,8 +20,7 @@ export const ChangelogReads: CollectionConfig = {
       // Allow viewers to read read-records only for changelogs in their assigned projects.
       return {
         changelog: {
-          project: { in: projectIds },
-          _status: { equals: 'published' },
+          and: [{ project: { in: projectIds } }, publiclyVisibleStatusWhere],
         },
       } as any
     },

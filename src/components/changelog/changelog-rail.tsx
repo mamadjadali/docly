@@ -144,7 +144,7 @@ export function ChangelogRail({ children, className }: ChangelogRailProps) {
   }, [itemCount, updateProgress])
 
   return (
-    <div ref={railRef} className="relative">
+    <div ref={railRef} className="relative min-w-0 max-w-full">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 start-0 w-6 md:start-[calc(11rem+1.5rem+10rem+1.5rem)]"

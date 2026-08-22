@@ -1,5 +1,6 @@
 import type { Access, Where } from 'payload'
 
+import { publiclyVisibleStatusWhere } from '@/lib/published-status'
 import { getAssignedProjectIds, isAdminUser, isViewerUser } from './roles'
 
 export const projectsRead: Access = ({ req: { user } }) => {
@@ -7,10 +8,7 @@ export const projectsRead: Access = ({ req: { user } }) => {
 
   if (isViewerUser(user)) {
     const query: Where = {
-      and: [
-        { _status: { equals: 'published' } },
-        { id: { in: getAssignedProjectIds(user) } },
-      ],
+      and: [publiclyVisibleStatusWhere, { id: { in: getAssignedProjectIds(user) } }],
     }
     return query
   }

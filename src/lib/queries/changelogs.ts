@@ -1,6 +1,7 @@
 import type { TypedUser } from 'payload'
 
 import { getPayloadClient } from '@/lib/payload'
+import { publiclyVisibleStatusWhere } from '@/lib/published-status'
 import type { SupportedLocale } from './projects'
 
 type GetChangelogsArgs = {
@@ -35,7 +36,7 @@ export async function getPublishedChangelogsByProject({
     where: {
       and: [
         { project: { equals: projectId } },
-        { _status: { equals: 'published' } },
+        publiclyVisibleStatusWhere,
         ...(labelId ? [{ labels: { in: [labelId] } }] : []),
       ],
     },

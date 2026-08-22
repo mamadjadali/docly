@@ -1,6 +1,7 @@
 import type { TypedUser } from 'payload'
 
 import { getPayloadClient } from '@/lib/payload'
+import { publiclyVisibleStatusWhere } from '@/lib/published-status'
 import type { Project } from '@/payload-types'
 
 const projectDepth = 1
@@ -20,11 +21,7 @@ export async function getPublishedProjects(user: TypedUser, locale: SupportedLoc
     sort: 'name',
     user,
     locale,
-    where: {
-      _status: {
-        equals: 'published',
-      },
-    },
+    where: publiclyVisibleStatusWhere,
   })
 }
 
@@ -45,7 +42,7 @@ export async function getPublishedProjectBySlug(
     user,
     locale,
     where: {
-      and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }],
+      and: [{ slug: { equals: slug } }, publiclyVisibleStatusWhere],
     },
   })
 

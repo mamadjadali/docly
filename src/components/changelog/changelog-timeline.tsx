@@ -32,9 +32,9 @@ export function ChangelogTimeline({
   const description = project.description?.trim() || 'آخرین تغییرات و بهبودها'
 
   return (
-    <section className={cn('py-16 md:py-32', className)}>
-      <div className="container">
-        <div className="mx-auto max-w-6xl">
+    <section className={cn('py-10 md:py-32', className)}>
+      <div className="container min-w-0 max-w-full">
+        <div className="mx-auto min-w-0 max-w-6xl">
           <p className="mb-3 text-sm text-muted-foreground">
             <Link className="hover:text-foreground" href="/">
               پروژه‌ها
@@ -55,11 +55,11 @@ export function ChangelogTimeline({
             </p>
           )}
         </div>
-        <div className="mx-auto mt-16 max-w-6xl md:mt-24">
+        <div className="mx-auto mt-10 min-w-0 max-w-6xl md:mt-24">
           {entries.length === 0 ? (
             <p className="text-muted-foreground">هنوز تغییری منتشر نشده است.</p>
           ) : (
-            <ChangelogRail className="space-y-16 md:space-y-24">
+            <ChangelogRail className="space-y-10 md:space-y-24">
               {entries.map((entry) => (
                 <ChangelogEntry
                   key={entry.id}
@@ -72,7 +72,7 @@ export function ChangelogTimeline({
           )}
         </div>
         {(hasPrevPage || hasNextPage) && (
-          <div className="mx-auto mt-16 flex max-w-6xl items-center justify-between">
+          <div className="mx-auto mt-10 flex min-w-0 max-w-6xl items-center justify-between md:mt-16">
             {hasPrevPage && prevHref ? (
               <Button asChild variant="outline">
                 <Link href={prevHref}>صفحه قبل</Link>
